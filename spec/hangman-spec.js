@@ -29,6 +29,33 @@ describe('Hangman', function() {
       expect(dinosaur.guess('u')).toEqual(true);
       expect(dinosaur.guess('u')).toEqual(true);//still true
     });
+    it('should update the property "guessedLetters" when a letter is guessed.', function() {
+      dinosaur.guess('a');
+      expect(dinosaur.guessedLetters).toContain('a');
+    });
+    it('should not update the property "guessedLetters" when a letter is guessed more than once.', function() {
+      dinosaur.guess('a');
+      expect(dinosaur.guessedLetters).toEqual(['a']);
+      dinosaur.guess('b');
+      expect(dinosaur.guessedLetters).toEqual(['a','b']);
+      dinosaur.guess('a');
+      expect(dinosaur.guessedLetters).toEqual(['a','b']);
+    });
+  });
+
+  describe('checkWin', function() {
+    it('should check to see if all letters have been guessed.',function() {
+      expect(dinosaur.checkWin()).toEqual(false);
+      dinosaur.guess('d');
+      dinosaur.guess('i');
+      dinosaur.guess('n');
+      dinosaur.guess('o');
+      dinosaur.guess('s');
+      dinosaur.guess('a');
+      dinosaur.guess('u');
+      dinosaur.guess('r');
+      expect(dinosaur.checkWin()).toEqual(true);
+    });
   });
 
 });
