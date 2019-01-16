@@ -13,10 +13,6 @@ describe('Hangman', function() {
   });
 
   describe('guess', function() {
-    beforeEach(function(){
-      dinosaur = new Hangman('dinosaur');
-      console.log(dinosaur.hiddenWordArray.join(''));
-    });
     it('should return a true statement if the letter guessed exists in the original word.', function() {
       expect(dinosaur.guess("d")).toEqual(true);
       expect(dinosaur.hiddenWordArray).toEqual(["d","-","-","-","-","-","-","-"]);
@@ -44,7 +40,7 @@ describe('Hangman', function() {
   });
 
   describe('checkWin', function() {
-    it('should check to see if all letters have been guessed.',function() {
+    it('should check to see if all letters have been guessed.', function() {
       expect(dinosaur.checkWin()).toEqual(false);
       dinosaur.guess('d');
       dinosaur.guess('i');
@@ -53,6 +49,7 @@ describe('Hangman', function() {
       dinosaur.guess('s');
       dinosaur.guess('a');
       dinosaur.guess('u');
+      expect(dinosaur.checkWin()).toEqual(false);
       dinosaur.guess('r');
       expect(dinosaur.checkWin()).toEqual(true);
     });
