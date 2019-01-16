@@ -4,14 +4,27 @@
     <meta charset="utf-8">
     <title>Dinos Why Not?</title>
   </head>
-<body>
-  <div class="showTank">
-    <div id="tank-board" scr"" ></div>
+  <body>
+    <div class="container">
+      <div id="game-area">
+        <div id="hangman-img">
 
+        </div>
+        <div id="guess-word">
+          <ul id="guess-word-letters">
 
+          </ul><br>
+        </div>
+        <ul id="guessed-letters">
 
+        </ul><br>
+      </div><br>
+      <p id="error-message"></p><br>
 
-
+      <form>
+        <input type="text" name="player-input" id="player-input" onfocus="this.value=''" autofocus>
+        <button type="submit" name="btn">Guess</button>
+      </form>
     </div>
-</body>
+  </body>
 </html>

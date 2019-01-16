@@ -4,28 +4,48 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Hangman } from './hangman.js';
 
 $(document).ready(function() {
-  let word;
-  $("body").onLoad(function() {
-    $.ajax({
-      url: 'http://dinoipsum.herokuapp.com/api/',
-      type: 'GET',
-      data: {
-        format: 'json',
-        paragraphs: '1',
-        words: '1'
-      },
-      success: function(response) {
-        word = response[0][0];
-        runGame(word);
-      },
-      error: function() {
-        $('#error-message').text('There was a problem proccessing your API.');
-      }
-    });
+  $.ajax({
+    url: 'http://dinoipsum.herokuapp.com/api/',
+    type: 'GET',
+    data: {
+      format: 'json',
+      paragraphs: '1',
+      words: '1'
+    },
+    success: function(response) {
+      console.log('use API')
+      let hangman = new Hangman(response[0][0].toLowerCase());
+      showGame(hangman);
+      $('#game-area').show();
+      runGame(hangman);
+    },
+    error: function() {
+      $('#error-message').text('There was a problem proccessing your API.');
+    }
   });
+  function showGame(hangman) {
+    $('#guess-word-letters').empty();
+    hangman.hiddenWordArray.forEach(function(letter) {
+      $('#guess-word-letters').append(`<li class="letter">${letter}</li>`);
+    });
+    $('#guessed-letters').empty();
+    hangman.guessedLetters.sort().forEach(function(letter) {
+      $('#guessed-letters').append(`<li class="letter">${letter}</li>`);
+    });
+  }
 
-  function runGame(word) {
-    let hangman = new Hangman(word);
-    debugger;
+  function runGame(hangman) {
+    $('form').submit(function(event) {
+      event.preventDefault();
+      const playerGuess = $('#player-input').val();
+      const correct = hangman.guess(playerGuess);
+      showGame(hangman);
+      if (correct) {
+        console.log(`${playerGuess} is correct!`);
+      } else {
+        console.log(`${playerGuess} is incorrect!`);
+      }
+      $('#player-input').val('');
+    });
   }
 });
