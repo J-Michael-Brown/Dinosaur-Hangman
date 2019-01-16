@@ -3,7 +3,7 @@ import { Hangman } from './../src/hangman.js';
 describe('Hangman', function() {
   let dinosaur;
   beforeEach(function(){
-    dinosaur = new hangman('dinosaur');
+    dinosaur = new Hangman('dinosaur');
   });
 
   describe('buildHidden', function() {
