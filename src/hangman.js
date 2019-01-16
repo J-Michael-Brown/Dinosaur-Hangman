@@ -1,25 +1,33 @@
-import $ from 'jquery';
-
-
 class Hangman {
 
-  constructor() {
-    let word;
-    $.ajax({
-      url: 'http://dinoipsum.herokuapp.com/api/?format=html&paragraphs=1&words=1',
-      type: 'GET',
-      data: {
-        format: 'json'
-      },
-      success: function(response) {
-        word = response[0][0];
-      },
-      error: function() {
-        word = false;
-      }
-    });
-
+  constructor(word) {
+    this.word = word;
+    this.buildHidden();
   }
 
+  buildHidden(word = this.word){
+    let hiddenWord = [];
+    word.split('').forEach(function() {
+      hiddenWord.push('-');
+    });
+    this.hiddenWordArray = hiddenWord;
+    return this.hiddenWordArray;
+  }
+
+  guess(letter) {
+    let original = this.word.split('');
+    let newGuess = this.hiddenWordArray;
+    original.forEach(function(originalLetter, originIndex) {
+      if (letter == originalLetter) {
+        newGuess[originIndex] = originalLetter;
+      }
+    });
+    this.hiddenWordArray = newGuess;
+    if (this.hiddenWordArray.includes(letter)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 export { Hangman };
