@@ -13,7 +13,7 @@ $(document).ready(function() {
       words: '1'
     },
     success: function(response) {
-      console.log('use API')
+      console.log('use API');
       let hangman = new Hangman(response[0][0].toLowerCase());
       showGame(hangman);
       $('#game-area').show();
@@ -32,10 +32,14 @@ $(document).ready(function() {
     hangman.guessedLetters.sort().forEach(function(letter) {
       $('#guessed-letters').append(`<li class="letter">${letter}</li>`);
     });
+    if(hangman.checkWin()) {
+      console.log('a winner is you!');
+      $('#wiki-link').html(`<a href="https://en.wikipedia.org/wiki/${hangman.word}">${hangman.word}</a>`);
+    }
   }
 
   function runGame(hangman) {
-    $('form').submit(function(event) {
+    $('#player-input').keyup(function(event) {
       event.preventDefault();
       const playerGuess = $('#player-input').val();
       const correct = hangman.guess(playerGuess);
@@ -46,6 +50,6 @@ $(document).ready(function() {
         console.log(`${playerGuess} is incorrect!`);
       }
       $('#player-input').val('');
-    });
+    }).change();
   }
 });
