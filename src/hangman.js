@@ -2,6 +2,7 @@ class Hangman {
 
   constructor(word) {
     this.word = word;
+    this.guessedLetters = [];
     this.buildHidden();
   }
 
@@ -22,6 +23,11 @@ class Hangman {
         newGuess[originIndex] = originalLetter;
       }
     });
+
+    if (!this.guessedLetters.includes(letter)) {
+      this.guessedLetters.push(letter);
+    }
+
     this.hiddenWordArray = newGuess;
     if (this.hiddenWordArray.includes(letter)) {
       return true;
@@ -29,5 +35,10 @@ class Hangman {
       return false;
     }
   }
+
+  checkWin() {
+    return this.hiddenWordArray.join('')==this.word;
+  }
+
 }
 export { Hangman };
