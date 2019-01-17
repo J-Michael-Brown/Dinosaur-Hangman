@@ -34,22 +34,31 @@ $(document).ready(function() {
     });
     if(hangman.checkWin()) {
       console.log('a winner is you!');
-      $('#wiki-link').html(`<a href="https://en.wikipedia.org/wiki/${hangman.word}">${hangman.word}</a>`);
+      $('#wiki-link').html(`<a href="https://en.wikipedia.org/wiki/${hangman.word}" target="_blank">${hangman.word}</a>`);
     }
   }
 
   function runGame(hangman) {
     $('#player-input').keyup(function(event) {
       event.preventDefault();
-      const playerGuess = $('#player-input').val();
-      const correct = hangman.guess(playerGuess);
-      showGame(hangman);
-      if (correct) {
-        console.log(`${playerGuess} is correct!`);
+      $('#error-message').hide();
+      const playerGuess = $('#player-input').val().toLowerCase();
+      if (!playerGuess.match(/^[0-9a-zA-Z]+$/)) {
+        $('#error-message').text('Guess a letter. Or dinosaurs have $ in their names???');
+        $('#error-message').show();
+      } else if (playerGuess.length>1) {
+        $('#error-message').text('One letter at time please.');
+        $('#error-message').show();
       } else {
-        console.log(`${playerGuess} is incorrect!`);
+        const correct = hangman.guess(playerGuess);
+        showGame(hangman);
+        if (correct) {
+          console.log(`${playerGuess} is correct!`);
+        } else {
+          console.log(`${playerGuess} is incorrect!`);
+        }
       }
       $('#player-input').val('');
-    }).change();
+    });
   }
 });
